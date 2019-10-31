@@ -1,5 +1,8 @@
 #!/bin/bash -xeEl
 
+module avail
+exit 1
+
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
     echo "WARNING: WORKSPACE is not defined"
