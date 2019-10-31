@@ -1,4 +1,9 @@
 #!/bin/bash -xeEl
+
+MODULE_VERSION="4.3.0"
+MODULE_INSTALL_PATH="/.autodirect/mtrswgwork/artemry/tools/module/modules-${MODULE_VERSION}/_install"
+. ${MODULE_INSTALL_PATH}/init/profile.sh
+
 export PATH=/hpc/local/bin::/usr/local/bin:/bin:/usr/bin:/usr/sbin:${PATH}
 
 help_txt_list=${help_txt_list:="oshmem ompi/mca/coll/hcoll ompi/mca/pml/yall ompi/mca/pml/ucx ompi/mca/spml/ucx"}
