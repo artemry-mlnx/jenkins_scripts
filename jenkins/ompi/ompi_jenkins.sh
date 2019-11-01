@@ -4,9 +4,6 @@ MODULE_VERSION="4.3.0"
 MODULE_INSTALL_PATH="/.autodirect/mtrswgwork/artemry/tools/module/modules-${MODULE_VERSION}/_install"
 . ${MODULE_INSTALL_PATH}/init/profile.sh
 
-module avail
-exit 1
-
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
     echo "WARNING: WORKSPACE is not defined"
