@@ -1,9 +1,5 @@
 #!/bin/bash -xeEl
 
-MODULE_VERSION="4.3.0"
-MODULE_INSTALL_PATH="/.autodirect/mtrswgwork/artemry/tools/module/modules-${MODULE_VERSION}/_install"
-. ${MODULE_INSTALL_PATH}/init/profile.sh
-
 module avail
 exit 1
 
