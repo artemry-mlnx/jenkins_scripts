@@ -11,6 +11,8 @@ if [ -z "$WORKSPACE" ]; then
     ghprbTargetBranch=${ghprbTargetBranch:="mellanox-v1.8"}
 fi
 
+module avail
+
 cd $WORKSPACE
 
 export PATH=/hpc/local/bin:/usr/local/bin:/bin:/usr/bin:/usr/sbin:${PATH}
