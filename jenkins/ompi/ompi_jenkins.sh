@@ -12,6 +12,7 @@ if [ -z "$WORKSPACE" ]; then
 fi
 
 module avail
+exit 0
 
 cd $WORKSPACE
 
