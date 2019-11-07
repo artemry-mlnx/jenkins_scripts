@@ -1,4 +1,9 @@
-#!/bin/bash -xeEl
+#!/bin/bash -eEl
+
+if [ "$DEBUG" = "true" ]
+then
+    set -x
+fi
 
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
@@ -10,8 +15,6 @@ if [ -z "$WORKSPACE" ]; then
     NOJENKINS=${NOJENKINS:="yes"}
     ghprbTargetBranch=${ghprbTargetBranch:="mellanox-v1.8"}
 fi
-
-module avail
 
 cd $WORKSPACE
 
