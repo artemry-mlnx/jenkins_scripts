@@ -47,9 +47,11 @@ jenkins_test_hcoll="no"
 # do that itself
 jenkins_session_base=`mktemp -d`
 function jenkins_cleanup {
-  echo "Script exited with code = $?"
+  EXIT_CODE=$?
+  echo "Script exited with code = ${EXIT_CODE}"
   rm -rf "$jenkins_session_base"
   echo "rm -rf ... returned $?"
+  exit ${EXIT_CODE}
 }
 trap jenkins_cleanup EXIT
 export OMPI_MCA_orte_tmpdir_base=$jenkins_session_base
