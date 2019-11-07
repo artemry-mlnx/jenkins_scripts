@@ -51,6 +51,11 @@ function jenkins_cleanup {
   echo "Script exited with code = ${EXIT_CODE}"
   rm -rf "$jenkins_session_base"
   echo "rm -rf ... returned $?"
+  if [ "${EXIT_CODE}" -eq 0 ]; then
+    echo "PASS"
+  else
+    echo "FAIL"
+  fi
   exit ${EXIT_CODE}
 }
 trap jenkins_cleanup EXIT
