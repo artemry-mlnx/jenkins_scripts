@@ -57,7 +57,7 @@ trap jenkins_cleanup EXIT
 export OMPI_MCA_orte_tmpdir_base=$jenkins_session_base
 
 # TODO debug
-exit 55
+exit 0
 
 if [ -n "$EXECUTOR_NUMBER" ]; then
     AFFINITY_GLOB="taskset -c $(( 2 * EXECUTOR_NUMBER ))","$(( 2 * EXECUTOR_NUMBER + 1))"
