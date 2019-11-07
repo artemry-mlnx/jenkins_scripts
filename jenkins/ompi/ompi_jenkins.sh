@@ -611,7 +611,7 @@ if [ "$jenkins_test_build" = "yes" ]; then
     configure_args="--with-platform=contrib/platform/mellanox/optimized --with-ompi-param-check --enable-picky $extra_conf"
 
     if [ "$jenkins_test_ucx" = "yes" ]; then
-        module load hpcx-gcc
+        module load hpcx-gcc-stack
         if [ "$jenkins_test_use_ucx_branch" = "yes" ]; then
             export ucx_root=$WORKSPACE/ucx_local
             git clone https://github.com/openucx/ucx -b $jenkins_test_ucx_branch $ucx_root
@@ -622,7 +622,7 @@ if [ "$jenkins_test_build" = "yes" ]; then
            export UCX_DIR=$ucx_root/install
 
            # We need to override LD_LIBRARY_PATH because.
-           # `module load hpcx-gcc` will pull the legacy
+           # `module load hpcx-gcc-stack` will pull the legacy
            # UCX files that will interfere with our custom-built
            # UCX during configuration and the runtime I guess
            export LD_LIBRARY_PATH=${HPCX_UCX_DIR}/lib:$LD_LIBRARY_PATH
@@ -835,7 +835,7 @@ if [ -n "$JENKINS_RUN_TESTS" ]; then
 
             module load dev/mofed_valgrind
             module load tools/valgrind
-            module load hpcx-gcc
+            module load hpcx-gcc-stack
 
             exe_dir=$OMPI_HOME/examples
             vg_opt="--suppressions=$OMPI_HOME/share/openmpi/openmpi-valgrind.supp --suppressions=$abs_path/vg.supp --error-exitcode=3 --track-origins=yes -q"
