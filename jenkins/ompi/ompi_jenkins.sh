@@ -194,7 +194,7 @@ fi
 
 # check for jenkins command in PR last comment
 if [ -n "$ghprbPullLink" ]; then
-    set +xeE
+    set +eE
     pr_url=$(echo $ghprbPullLink | sed -e s,github.com,api.github.com/repos,g -e s,pull,issues,g)
     pr_url="${pr_url}/comments"
     pr_file="$WORKSPACE/github_pr_${ghprbPullId}.json"
@@ -209,7 +209,7 @@ if [ -n "$ghprbPullLink" ]; then
     if [ -n "$pr_comments" ]; then
         check_commands "$pr_comments"
     fi
-    set -xeE
+    set -eE
 fi
 
 
@@ -408,15 +408,12 @@ function on_start()
     echo $distro_name -- $distro_ver
 
     # save current environment to support debugging
-    set +x
     env| sed -ne "s/\(\w*\)=\(.*\)\$/export \1='\2'/p" > $WORKSPACE/test_env.sh
     chmod 755 $WORKSPACE/test_env.sh
-    set -x
 }
 
 function on_exit
 {
-    set +x
     rc=$((rc + $?))
     echo exit code=$rc
     if [ $rc -ne 0 ]; then
