@@ -1,5 +1,32 @@
 #!/bin/bash -eEl
 
+# TODO:
+#   1. Check that yalla is not built
+
+# TODO debug
+DEBUG=true
+
+jenkins_test_all=no
+jenkins_test_build=no
+jenkins_test_check=no
+jenkins_test_comments=no
+jenkins_test_cov=yes
+jenkins_test_debug=no
+jenkins_test_examples=no
+jenkins_test_hcoll=no
+jenkins_test_help_txt=no
+jenkins_test_known_issues=no
+jenkins_test_oshmem=no
+jenkins_test_slurm=no
+jenkins_test_src_rpm=no
+jenkins_test_threads=no
+jenkins_test_ucx=no
+jenkins_test_ucx_branch=master
+jenkins_test_use_ucx_branch=no
+jenkins_test_vader=no
+jenkins_test_vg=no
+jenkins_test_xrc=no
+
 if [ "$DEBUG" = "true" ]; then
     set -x
 fi
