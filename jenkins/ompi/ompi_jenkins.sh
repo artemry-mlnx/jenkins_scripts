@@ -2,12 +2,13 @@
 
 # TODO:
 #   1. Check that yalla is not built
+#   2. Split the script into Jenkins pipeline stages (building, testing, coverity, etc.)
 
 # TODO debug
 DEBUG=true
 
 jenkins_test_all=no
-jenkins_test_build=no
+jenkins_test_build=yes
 jenkins_test_check=no
 jenkins_test_comments=no
 jenkins_test_cov=yes
@@ -668,7 +669,8 @@ if [ "$jenkins_test_build" = "yes" ]; then
     # build ompi
     $autogen_script
     echo ./configure $configure_args --prefix=$OMPI_HOME1 | bash -xeE
-    make $make_opt install
+    # TODO debug
+    #make $make_opt install
     jenkins_build_passed=1
 
     # make check
