@@ -7,27 +7,6 @@
 # TODO debug
 DEBUG=true
 
-jenkins_test_all=no
-jenkins_test_build=yes
-jenkins_test_check=no
-jenkins_test_comments=no
-jenkins_test_cov=yes
-jenkins_test_debug=no
-jenkins_test_examples=no
-jenkins_test_hcoll=no
-jenkins_test_help_txt=no
-jenkins_test_known_issues=no
-jenkins_test_oshmem=no
-jenkins_test_slurm=no
-jenkins_test_src_rpm=no
-jenkins_test_threads=no
-jenkins_test_ucx=yes
-jenkins_test_ucx_branch=master
-jenkins_test_use_ucx_branch=no
-jenkins_test_vader=no
-jenkins_test_vg=no
-jenkins_test_xrc=no
-
 if [ "$DEBUG" = "true" ]; then
     set -x
 fi
@@ -669,8 +648,7 @@ if [ "$jenkins_test_build" = "yes" ]; then
     # build ompi
     $autogen_script
     echo ./configure $configure_args --prefix=$OMPI_HOME1 | bash -xeE
-    # TODO debug
-    #make $make_opt install
+    make $make_opt install
     jenkins_build_passed=1
 
     # make check
@@ -715,6 +693,8 @@ if [ -n "$jenkins_build_passed" ]; then
                 make $make_cov_opt $make_opt clean 2>&1 > /dev/null
                 test_cov $cov_build_dir $cov_proj "make $make_cov_opt $make_opt all" $cov_directive
                 set -eE
+
+                cat ${cov_stat_tap}
             done
             if [ -n "$ghprbPullId" -a -f "$gh_cov_msg" ]; then
                 echo "* Coverity report at $cov_url_webroot" >> $gh_cov_msg
