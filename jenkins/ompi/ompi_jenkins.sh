@@ -692,6 +692,7 @@ if [ -n "$jenkins_build_passed" ]; then
                 set -eE
             done
 
+            echo "INFO: Coverity scan status:"
             cat ${cov_stat_tap}
 
             if [ -n "$ghprbPullId" -a -f "$gh_cov_msg" ]; then
