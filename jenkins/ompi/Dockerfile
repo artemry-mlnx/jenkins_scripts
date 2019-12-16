@@ -1,6 +1,5 @@
 ARG OMPI_CI_OS
-ARG OMPI_CI_OS_VERSION
-FROM ${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION}
+FROM ${OMPI_CI_OS}
 
 RUN groupadd -g 11429 swx-jenkins
 RUN adduser --uid 6213 --gid 11429 --home /home/swx-jenkins swx-jenkins

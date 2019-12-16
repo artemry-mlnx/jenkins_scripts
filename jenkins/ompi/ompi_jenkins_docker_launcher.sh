@@ -21,10 +21,10 @@ then
     exit 1
 fi
 
-OMPI_CI_OS="centos"
+OMPI_CI_OS_NAME="centos"
 OMPI_CI_OS_VERSION="7"
 OMPI_CI_OFED="mofed-4.7-1.0.0.1"
-OMPI_CI_IMAGE_NAME="${OMPI_CI_OS}_ompi:${BUILD_BUILDID}"
+OMPI_CI_IMAGE_NAME="${OMPI_CI_OS_NAME}_ompi:${BUILD_BUILDID}"
 
 # Check that you are inside a docker container
 cat /proc/1/cgroup
