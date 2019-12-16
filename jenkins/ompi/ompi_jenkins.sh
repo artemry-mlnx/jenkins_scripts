@@ -11,6 +11,8 @@ fi
 # Check that you are inside a docker container
 cat /proc/1/cgroup
 
+printenv
+
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
     echo "WARNING: WORKSPACE is not defined"

@@ -51,7 +51,7 @@ rm -rf ${DOCKER_BUILD_CONTEXT_DIR}
 docker images
 docker ps -a
 
-find ${WORKSPACE_JENKINS_SCRIPTS}
+printenv
 
 # Run OMPI CI scenarios (build and test)
 docker run \
