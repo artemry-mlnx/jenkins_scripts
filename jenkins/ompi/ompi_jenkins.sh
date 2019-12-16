@@ -8,6 +8,9 @@ if [ "$DEBUG" = "true" ]; then
     set -x
 fi
 
+# Check that you are inside a docker container
+cat /proc/1/cgroup
+
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
     echo "WARNING: WORKSPACE is not defined"
@@ -72,8 +75,6 @@ if [ -n "$EXECUTOR_NUMBER" ]; then
 else
     AFFINITY_GLOB=""
 fi
-
-pwd
 
 if [ ! -d "$WORKSPACE/ompi/mca/pml/ucx" ]; then
     jenkins_test_ucx="no"
@@ -204,7 +205,6 @@ if [ -n "$ghprbPullLink" ]; then
     curl -s $pr_url > $pr_file
     echo Fetching PR comments from URL: $pr_url
 
-    # TODO check the log file (there is an error message)
     # extracting last comment
     pr_comments="$(cat $pr_file | jq -M -a '.[length-1] | .body')"
 

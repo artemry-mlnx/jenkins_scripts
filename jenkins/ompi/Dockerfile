@@ -1,0 +1,14 @@
+ARG OMPI_CI_OS centos
+ARG OMPI_CI_OS_VERSION 7
+FROM ${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION}
+
+RUN groupadd -g 11429 swx-jenkins
+RUN adduser --uid 6213 --gid 11429 --home /home/swx-jenkins swx-jenkins
+RUN echo "swx-jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN yum install -y \
+    bc \
+    environment-modules \
+    jq
+
+RUN echo "/hpc/local/etc/modulefiles" >> /usr/share/Modules/init/.modulespath
