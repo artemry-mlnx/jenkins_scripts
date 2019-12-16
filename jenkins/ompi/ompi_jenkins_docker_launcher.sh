@@ -29,6 +29,10 @@ OMPI_CI_IMAGE_NAME="${OMPI_CI_OS}_ompi:${BUILD_BUILDID}"
 # Check that you are inside a docker container
 cat /proc/1/cgroup
 
+DOCKER_BUILD_CONTEXT_DIR=/tmp/ompi_build_docker_image_${BUILD_BUILDID}
+rm -rf ${DOCKER_BUILD_CONTEXT_DIR}
+mkdir -p ${DOCKER_BUILD_CONTEXT_DIR}
+
 # Build Docker image
 docker build \
     --no-cache \
@@ -39,7 +43,10 @@ docker build \
     --build-arg OMPI_CI_OS=${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION} \
     --build-arg OMPI_CI_OFED=${OMPI_CI_OFED} \
     -f ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/Dockerfile \
-    -t ${OMPI_CI_IMAGE_NAME}
+    -t ${OMPI_CI_IMAGE_NAME} \
+    ${DOCKER_BUILD_CONTEXT_DIR}
+
+rm -rf ${DOCKER_BUILD_CONTEXT_DIR}
 
 docker images
 docker ps -a
