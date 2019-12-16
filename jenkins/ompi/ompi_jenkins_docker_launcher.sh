@@ -63,8 +63,9 @@ docker run \
     --security-opt seccomp=unconfined \
     --cap-add=SYS_ADMIN \
     --device=/dev/infiniband/ \
+    --env WORKSPACE=${WORKSPACE_OMPI} \
     ${OMPI_CI_IMAGE_NAME} \
-    WORKSPACE=${WORKSPACE_OMPI} ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
+    ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
 
 docker rmi ${OMPI_CI_IMAGE_NAME}
 docker images
