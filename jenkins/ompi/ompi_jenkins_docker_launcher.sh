@@ -56,7 +56,7 @@ find ${WORKSPACE_JENKINS_SCRIPTS}
 # Run OMPI CI scenarios (build and test)
 docker run \
     -v /hpc/local:/hpc/local \
-    -v /labhome:/labhome \
+    -v /opt:/opt \
     --network=host \
     --uts=host \
     --ipc=host \
@@ -67,7 +67,7 @@ docker run \
     --device=/dev/infiniband/ \
     --env WORKSPACE=${WORKSPACE_OMPI} \
     ${OMPI_CI_IMAGE_NAME} \
-    bash -c ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
+    ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
 
 docker rmi ${OMPI_CI_IMAGE_NAME}
 docker images
