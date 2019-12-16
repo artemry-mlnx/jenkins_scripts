@@ -67,7 +67,7 @@ docker run \
     --device=/dev/infiniband/ \
     --env WORKSPACE=${WORKSPACE_OMPI} \
     ${OMPI_CI_IMAGE_NAME} \
-    ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
+    bash -c ${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh
 
 docker rmi ${OMPI_CI_IMAGE_NAME}
 docker images
