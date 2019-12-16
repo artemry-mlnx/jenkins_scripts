@@ -54,10 +54,7 @@ docker ps -a
 # Run OMPI CI scenarios (build and test)
 docker run \
     -v /hpc/local:/hpc/local \
-    -v /.autodirect/mtrswgwork:/.autodirect/mtrswgwork \
     -v /labhome:/labhome \
-    -v /scrap:/scrap \
-    -v /auto/sw_tools:/auto/sw_tools \
     --network=host \
     --uts=host \
     --ipc=host \
