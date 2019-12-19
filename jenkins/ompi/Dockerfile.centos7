@@ -26,6 +26,7 @@ RUN yum install -y \
     perl-Thread-Queue \
     tcsh \
     tk \
+    valgrind \
     wget
 
 RUN echo "/hpc/local/etc/modulefiles" >> /usr/share/Modules/init/.modulespath
