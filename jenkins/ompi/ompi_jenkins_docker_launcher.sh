@@ -53,5 +53,6 @@ docker run \
     --device=/dev/infiniband/ \
     --env WORKSPACE="${WORKSPACE_OMPI}" \
     --env DEBUG="${DEBUG}" \
+    --user swx-jenkins \
     "${OMPI_CI_DOCKER_IMAGE_NAME}" \
     "${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh"
