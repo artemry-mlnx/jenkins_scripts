@@ -7,16 +7,25 @@ RUN adduser --uid 6213 --gid 11429 --home /home/swx-jenkins swx-jenkins
 RUN echo "swx-jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 RUN yum install -y \
+    atk \
     bc \
+    cairo \
     environment-modules \
     flex \
     gcc \
     gcc-c++ \
+    gcc-gfortran \
+    gtk2 \
     jq \
+    libmnl \
+    libnl3 \
     make \
+    numactl-libs \
     perl \
     perl-Data-Dumper \
     perl-Thread-Queue \
+    tcsh \
+    tk \
     wget
 
 RUN echo "/hpc/local/etc/modulefiles" >> /usr/share/Modules/init/.modulespath
