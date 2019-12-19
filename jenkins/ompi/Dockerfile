@@ -27,7 +27,7 @@ ENV MOFED_SITE_PLACE MLNX_OFED-${OMPI_CI_OFED}
 ENV MOFED_IMAGE MLNX_OFED_LINUX-${OMPI_CI_OFED}-rhel7.6-x86_64.tgz
 RUN wget --no-verbose http://content.mellanox.com/ofed/${MOFED_SITE_PLACE}/${MOFED_IMAGE} && \
     tar -xzvf ${MOFED_IMAGE} && \
-    ${MOFED_DIR}/mlnxofedinstall --user-space-only --without-fw-update --all -q && \
+    ${MOFED_DIR}/mlnxofedinstall --user-space-only --without-fw-update --all -q --skip-distro-check && \
     cd .. && \
     rm -rf ${MOFED_DIR} && \
     rm -rf *.tgz
