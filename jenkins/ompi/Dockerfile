@@ -1,4 +1,6 @@
-FROM centos:7
+ARG OMPI_CI_OS_NAME=centos
+ARG OMPI_CI_OS_VERSION=7
+FROM ${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION}
 
 RUN groupadd -g 11429 swx-jenkins
 RUN adduser --uid 6213 --gid 11429 --home /home/swx-jenkins swx-jenkins
@@ -7,12 +9,25 @@ RUN echo "swx-jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN yum install -y \
     bc \
     environment-modules \
+    flex \
     gcc \
     gcc-c++ \
     jq \
     make \
     perl \
     perl-Data-Dumper \
-    perl-Thread-Queue
+    perl-Thread-Queue \
+    wget
 
 RUN echo "/hpc/local/etc/modulefiles" >> /usr/share/Modules/init/.modulespath
+
+ARG OMPI_CI_OFED=4.7-1.0.0.1
+ENV MOFED_DIR MLNX_OFED_LINUX-${OMPI_CI_OFED}-rhel7.6-x86_64
+ENV MOFED_SITE_PLACE MLNX_OFED-${OMPI_CI_OFED}
+ENV MOFED_IMAGE MLNX_OFED_LINUX-${OMPI_CI_OFED}-rhel7.6-x86_64.tgz
+RUN wget --no-verbose http://content.mellanox.com/ofed/${MOFED_SITE_PLACE}/${MOFED_IMAGE} && \
+    tar -xzvf ${MOFED_IMAGE} && \
+    ${MOFED_DIR}/mlnxofedinstall --user-space-only --without-fw-update --all -q && \
+    cd .. && \
+    rm -rf ${MOFED_DIR} && \
+    rm -rf *.tgz
