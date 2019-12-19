@@ -8,6 +8,7 @@ RUN yum install -y \
     bc \
     environment-modules \
     gcc \
+    gcc-c++ \
     jq \
     make \
     perl \
