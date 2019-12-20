@@ -9,6 +9,7 @@ RUN echo "swx-jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN yum install -y \
     atk \
     bc \
+    binutils-devel \
     cairo \
     environment-modules \
     flex \
