@@ -2,9 +2,12 @@ ARG OMPI_CI_OS_NAME=centos
 ARG OMPI_CI_OS_VERSION=7
 FROM ${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION}
 
-RUN groupadd -g 11429 swx-jenkins
-RUN adduser --uid 6213 --gid 11429 --home /home/swx-jenkins swx-jenkins
-RUN echo "swx-jenkins ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+# Create a user ${OMPI_CI_USERNAME}:${OMPI_CI_UID} with the group ${OMPI_CI_USERNAME}:${OMPI_CI_GID}
+ARG OMPI_CI_USERNAME
+ARG OMPI_CI_UID
+ARG OMPI_CI_GID
+RUN groupadd -g ${OMPI_CI_GID} ${OMPI_CI_USERNAME}
+RUN adduser --uid ${OMPI_CI_UID} --gid ${OMPI_CI_GID} --home /home/${OMPI_CI_USERNAME} ${OMPI_CI_USERNAME}
 
 RUN yum install -y \
     atk \
@@ -33,9 +36,11 @@ RUN yum install -y \
     valgrind-devel \
     wget
 
+# Engineering versions of Mellanox HPC-X components are loaded from the Mellanox lab environment modules
 RUN echo "/hpc/local/etc/modulefiles" >> /usr/share/Modules/init/.modulespath
 
 ARG OMPI_CI_OFED=4.7-1.0.0.1
+# TODO: 'rhel7.6' is hardcoded for centos7
 ENV MOFED_DIR MLNX_OFED_LINUX-${OMPI_CI_OFED}-rhel7.6-x86_64
 ENV MOFED_SITE_PLACE MLNX_OFED-${OMPI_CI_OFED}
 ENV MOFED_IMAGE MLNX_OFED_LINUX-${OMPI_CI_OFED}-rhel7.6-x86_64.tgz
