@@ -9,6 +9,8 @@ ARG OMPI_CI_GID
 RUN groupadd -g ${OMPI_CI_GID} ${OMPI_CI_USERNAME}
 RUN adduser --uid ${OMPI_CI_UID} --gid ${OMPI_CI_GID} --home /home/${OMPI_CI_USERNAME} ${OMPI_CI_USERNAME}
 
+RUN echo "${OMPI_CI_USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 RUN yum install -y \
     atk \
     bc \
@@ -31,6 +33,7 @@ RUN yum install -y \
     perl \
     perl-Data-Dumper \
     perl-Thread-Queue \
+    sudo \
     tcsh \
     tk \
     valgrind-devel \
