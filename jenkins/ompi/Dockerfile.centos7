@@ -33,6 +33,7 @@ RUN yum install -y \
     perl \
     perl-Data-Dumper \
     perl-Thread-Queue \
+    rpm-build \
     sudo \
     tcsh \
     tk \
