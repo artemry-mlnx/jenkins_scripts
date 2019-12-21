@@ -54,3 +54,6 @@ RUN wget --no-verbose http://content.mellanox.com/ofed/${MOFED_SITE_PLACE}/${MOF
     cd .. && \
     rm -rf ${MOFED_DIR} && \
     rm -rf *.tgz
+
+# Needed for rpm-build
+RUN mkdir -p /usr/src/redhat
