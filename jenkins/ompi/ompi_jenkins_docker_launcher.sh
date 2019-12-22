@@ -39,8 +39,6 @@ docker ps -a
 
 printenv
 
-export JENKINS_RUN_TESTS=yes
-
 # Run OMPI CI scenarios (build and test)
 docker run \
     -v /hpc/local:/hpc/local \
@@ -55,6 +53,7 @@ docker run \
     --device=/dev/infiniband/ \
     --env WORKSPACE="${WORKSPACE_OMPI}" \
     --env DEBUG="${DEBUG}" \
+    --env JENKINS_RUN_TESTS=yes \
     --user swx-jenkins \
     "${OMPI_CI_DOCKER_IMAGE_NAME}" \
     "${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh"
