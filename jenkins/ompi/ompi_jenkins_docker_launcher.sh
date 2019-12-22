@@ -54,7 +54,6 @@ docker run \
     --env WORKSPACE="${WORKSPACE_OMPI}" \
     --env DEBUG="${DEBUG}" \
     --env JENKINS_RUN_TESTS=yes \
-    --env jenkins_test_cov=no \
     --user swx-jenkins \
     "${OMPI_CI_DOCKER_IMAGE_NAME}" \
     "${WORKSPACE_JENKINS_SCRIPTS}/jenkins/ompi/ompi_jenkins.sh"

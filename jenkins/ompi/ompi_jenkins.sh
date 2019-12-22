@@ -38,7 +38,7 @@ jenkins_test_check=${jenkins_test_check:="yes"}
 jenkins_test_src_rpm=${jenkins_test_src_rpm:="yes"}
 jenkins_test_help_txt=${jenkins_test_help_txt:="no"}
 jenkins_test_threads=${jenkins_test_threads:="yes"}
-jenkins_test_cov=${jenkins_test_cov:="yes"}
+jenkins_test_cov=${jenkins_test_cov:="no"}
 jenkins_test_known_issues=${jenkins_test_known_issues:="no"}
 jenkins_test_all=${jenkins_test_all:="no"}
 jenkins_test_debug=${jenkins_test_debug:="no"}
