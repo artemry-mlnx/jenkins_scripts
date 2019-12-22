@@ -39,6 +39,8 @@ docker ps -a
 
 printenv
 
+export JENKINS_RUN_TESTS=yes
+
 # Run OMPI CI scenarios (build and test)
 docker run \
     -v /hpc/local:/hpc/local \
