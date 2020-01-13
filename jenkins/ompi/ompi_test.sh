@@ -2,12 +2,13 @@
 
 # TODO:
 #   1. Check that yalla is not built
-#   2. Split the script into Jenkins pipeline stages (building, testing, coverity, etc.)
-
 
 if [ "$DEBUG" = "true" ]; then
     set -x
 fi
+
+# Check that you are inside a docker container
+cat /proc/1/cgroup
 
 # prepare to run from command line w/o jenkins
 if [ -z "$WORKSPACE" ]; then
@@ -34,7 +35,7 @@ jenkins_test_check=${jenkins_test_check:="yes"}
 jenkins_test_src_rpm=${jenkins_test_src_rpm:="yes"}
 jenkins_test_help_txt=${jenkins_test_help_txt:="no"}
 jenkins_test_threads=${jenkins_test_threads:="yes"}
-jenkins_test_cov=${jenkins_test_cov:="yes"}
+jenkins_test_cov=${jenkins_test_cov:="no"}
 jenkins_test_known_issues=${jenkins_test_known_issues:="no"}
 jenkins_test_all=${jenkins_test_all:="no"}
 jenkins_test_debug=${jenkins_test_debug:="no"}
@@ -564,11 +565,15 @@ function test_mindist()
         if [ $val -gt 0 ]; then
             for hca_dev in $(ibstat -l); do
                 var=$(cat /sys/class/infiniband/${hca_dev}/device/numa_node)
+                if [ "$var" = "-1" ]; then
+                    echo "WARNING: NUMA is not enabled or not available on the test host. Skipping test_mindist"
+                    continue
+                fi
                 export TEST_CLOSEST_NUMA=$var
-                $OMPI_HOME/bin/mpirun $mca -np 8 --map-by dist -mca rmaps_dist_device ${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test
+                $OMPI_HOME/bin/mpirun $mca -np 4 --map-by dist -mca rmaps_dist_device ${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test
                 val=$?
                 if [ $val -ne 0 ]; then
-                    val=$($OMPI_HOME/bin/mpirun $mca -np 8 --map-by dist -mca rmaps_dist_device ${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test 2>&1 | grep Skip | wc -l)
+                    val=$($OMPI_HOME/bin/mpirun $mca -np 4 --map-by dist -mca rmaps_dist_device ${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test 2>&1 | grep Skip | wc -l)
                     if [ $val -gt 0 ]; then
                         echo "Test for the dist mapping policy was incorrectly launched or BIOS doesn't provide necessary information."
                     else
@@ -579,11 +584,15 @@ function test_mindist()
         else
             for hca_dev in $(ibstat -l); do
                 var=$(cat /sys/class/infiniband/${hca_dev}/device/numa_node)
+                if [ "$var" = "-1" ]; then
+                    echo "WARNING: NUMA is not enabled or not available on the test host. Skipping test_mindist"
+                    continue
+                fi
                 export TEST_CLOSEST_NUMA=$var
-                $OMPI_HOME/bin/mpirun -np 8 $mca --map-by dist:${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test
+                $OMPI_HOME/bin/mpirun -np 4 $mca --map-by dist:${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test
                 val=$?
                 if [ $val -ne 0 ]; then
-                    val=$($OMPI_HOME/bin/mpirun $mca -np 8 --map-by dist:${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test 2>&1 | grep Skip | wc -l)
+                    val=$($OMPI_HOME/bin/mpirun $mca -np 4 --map-by dist:${hca_dev} -x TEST_CLOSEST_NUMA -x TEST_PHYS_ID_COUNT -x TEST_CORE_ID_COUNT $abs_path/mindist_test 2>&1 | grep Skip | wc -l)
                     if [ $val -gt 0 ]; then
                         echo "Test for the dist mapping policy was incorrectly launched or BIOS doesn't provide necessary information."
                     else
@@ -597,7 +606,7 @@ function test_mindist()
 }
 
 
-trap "on_exit" INT TERM ILL KILL FPE SEGV ALRM
+trap "on_exit" INT TERM ILL FPE SEGV ALRM
 
 on_start
 
@@ -776,7 +785,7 @@ if [ -n "$JENKINS_RUN_TESTS" ]; then
             fi
             for exe in hello_c ring_c; do
                 exe_path=${exe_dir}/$exe
-                (PATH=$OMPI_HOME/bin:$PATH LD_LIBRARY_PATH=$OMPI_HOME/lib:$LD_LIBRARY_PATH mpi_runner 8 $exe_path)
+                (PATH=$OMPI_HOME/bin:$PATH LD_LIBRARY_PATH=$OMPI_HOME/lib:$LD_LIBRARY_PATH mpi_runner 4 $exe_path)
                 # launch using slurm launcher in case mpi is configured with pmi support
                 if [ "$jenkins_test_slurm" = "yes" ]; then
                     (slurm_runner 2 $exe_path)
@@ -786,7 +795,7 @@ if [ -n "$JENKINS_RUN_TESTS" ]; then
             if [ "$jenkins_test_oshmem" = "yes" ]; then
                 for exe in hello_oshmem oshmem_circular_shift oshmem_shmalloc oshmem_strided_puts oshmem_symmetric_data; do
                     exe_path=${exe_dir}/$exe
-                    (PATH=$OMPI_HOME/bin:$PATH LD_LIBRARY_PATH=$OMPI_HOME/lib:$LD_LIBRARY_PATH oshmem_runner 8 $exe_path)
+                    (PATH=$OMPI_HOME/bin:$PATH LD_LIBRARY_PATH=$OMPI_HOME/lib:$LD_LIBRARY_PATH oshmem_runner 4 $exe_path)
                 done
                 if [ `which clang` ]; then
                     if [ -f ${OMPI_HOME}/include/pshmem.h ]; then
