@@ -2,15 +2,6 @@ ARG OMPI_CI_OS_NAME=centos
 ARG OMPI_CI_OS_VERSION=7
 FROM ${OMPI_CI_OS_NAME}:${OMPI_CI_OS_VERSION}
 
-# Create a user ${OMPI_CI_USERNAME}:${OMPI_CI_UID} with the group ${OMPI_CI_USERNAME}:${OMPI_CI_GID}
-ARG OMPI_CI_USERNAME
-ARG OMPI_CI_UID
-ARG OMPI_CI_GID
-RUN groupadd -g ${OMPI_CI_GID} ${OMPI_CI_USERNAME}
-RUN adduser --uid ${OMPI_CI_UID} --gid ${OMPI_CI_GID} --home /home/${OMPI_CI_USERNAME} ${OMPI_CI_USERNAME}
-
-RUN echo "${OMPI_CI_USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
 RUN yum install -y \
     atk \
     bc \
