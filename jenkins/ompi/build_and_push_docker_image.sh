@@ -1,7 +1,7 @@
 #!/bin/bash -eE
 
 # Notes:
-#   Run the script under root or a user with the permissions for 'docker build'
+#   Run the script under root/sudo or a user with the permissions for 'docker build'
 
 OMPI_CI_OS_NAME=centos
 OMPI_CI_OS_VERSION=7
