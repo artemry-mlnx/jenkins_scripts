@@ -1,4 +1,4 @@
-#!/usr/bash -eE
+#!/bin/bash -eE
 
 # Notes:
 #   Run the script under root or a user with the permissions for 'docker build'
