@@ -1,7 +1,6 @@
 #!/bin/bash -eEl
 
 set -u
-set -o pipefail
 
 if [ "$DEBUG" = "true" ]
 then
